@@ -1,4 +1,3 @@
-// packages/core/test/html.test.ts
 import { describe, expect, it, vi } from 'vitest';
 import { createSignal } from '@crux/reactivity';
 

@@ -1,4 +1,3 @@
-// packages/core/test/createCruxApp.test.ts
 import { describe, expect, vi } from 'vitest';
 import { createCruxApp } from '@crux/core';
 

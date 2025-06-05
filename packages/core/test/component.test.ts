@@ -1,4 +1,3 @@
-// component.test.ts
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { defineComponent } from '@crux/core';
 

@@ -78,12 +78,7 @@ export function html<T extends unknown[]>(
       const idx = +m[1];
       const expr = vals[idx];
       el.removeAttribute(attr.name);
-      console.log('allDirectives', allDirectives);
-
       for (const directive of allDirectives) {
-        console.log('directive', directive);
-        console.log('attr', attr);
-        console.log('directive.match(attr)', directive.match(attr));
         if (directive.match(attr)) {
           directive.apply(el, attr, expr);
           break;

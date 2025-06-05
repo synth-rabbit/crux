@@ -1,4 +1,3 @@
-// effect.test.ts
 import { describe, expect, it, vi } from 'vitest';
 
 import { effect, onCleanup } from '../src/effect';
@@ -84,7 +83,7 @@ describe('effect (integration with signal)', () => {
   it('handles case where cleanupMap.get returns undefined', () => {
     // This branch triggers the `?? []` fallback
     // We use a stub signal that doesn't actually track
-    const [_, set] = createSignal(0);
+    createSignal(0);
     expect(() => {
       effect(() => {
         // No actual dependencies, so cleanupMap.get will be undefined

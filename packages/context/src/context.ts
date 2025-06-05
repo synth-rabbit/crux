@@ -58,7 +58,7 @@ export function useContext<T>(context: Context<T>): Signal<T> | undefined {
   return context.defaultValue as Signal<T>;
 }
 
-// 🧪 For testing only
+/** Internal helper to reset the context stack for tests. */
 export function _resetContextStack(): void {
   contextStack.length = 0;
   currentContextMap = new Map();

@@ -1,4 +1,3 @@
-// scheduler.test.ts
 import { describe, expect, it, vi } from 'vitest';
 
 import { flush, queueJob } from '../src/scheduler';

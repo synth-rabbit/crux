@@ -1,6 +1,8 @@
 interface CreateCruxAppOptions {
-  root: string; // custom element tag name, e.g., 'my-app'
-  selector: string; // CSS selector to mount on
+  /** Custom element tag name, e.g., 'my-app' */
+  root: string;
+  /** CSS selector to mount on */
+  selector: string;
 }
 
 export function createCruxApp({ root, selector }: CreateCruxAppOptions) {
