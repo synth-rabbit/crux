@@ -46,6 +46,7 @@ defineComponent('hello-world', () => {
 Mount the root component using `createCruxApp` in `main.ts`:
 
 ```ts
+import './hello-world.ts';
 import { createCruxApp } from '@crux/core';
 
 createCruxApp({

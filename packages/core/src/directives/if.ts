@@ -11,11 +11,22 @@ export const ifDirective: Directive = {
   apply(el, attr, expr) {
     el.removeAttribute('cx:if');
 
+    const placeholder = document.createComment('cx:if');
+    let isVisible = true;
+
     const toggle = (visible: boolean) => {
-      el.style.display = visible ? '' : 'none';
+      if (visible === isVisible) return;
+      if (visible) {
+        const parent = placeholder.parentNode!;
+        parent.replaceChild(el, placeholder);
+      } else {
+        const parent = el.parentNode!;
+        parent.replaceChild(placeholder, el);
+      }
+      isVisible = visible;
     };
 
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    isFunction(expr) ? effect(() => toggle(expr())) : toggle(Boolean(expr));
+    isFunction(expr) ? effect(() => toggle(Boolean(expr()))) : toggle(Boolean(expr));
   },
 };
