@@ -1,0 +1,40 @@
+# Node modules
+node_modules/
+
+# Build output
+dist/
+packages/*/dist/
+playground/dist/
+
+# Logs
+*.log
+pnpm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# TypeScript
+*.tsbuildinfo
+
+# VS Code
+.vscode/
+.history/
+
+# Mac system files
+.DS_Store
+
+# Environment
+.env
+.env.*.local
+
+# ESLint & Prettier cache
+.eslintcache
+
+# Coverage
+coverage/
+
+# IDEs
+.idea/
+*.iml
+
+# Vite cache
+playground/.vite/

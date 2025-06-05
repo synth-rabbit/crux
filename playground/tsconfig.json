@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".", // needed for paths to work
+    "paths": {
+      "@crux/core": ["../packages/core/src"],
+      "@crux/reactivity": ["../packages/reactivity/src"],
+      "@crux/context": ["../packages/context/src"]
+    }
+  }
+}

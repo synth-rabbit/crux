@@ -1,0 +1,23 @@
+import { effect } from '@crux/reactivity';
+
+import { isFunction, unwrap } from '../utils';
+
+import { Directive } from './types';
+
+const blocked = ['srcdoc', 'style', 'href', 'src', 'xlink:href'];
+
+export const reactiveAttrDirective: Directive = {
+  match(attr: any) {
+    console.log('reactiveMatch');
+    const name = attr.name;
+    if (name === 'cx:if') return false; // exclude explicitly
+    return name.startsWith('cx:') && !blocked.includes(name.slice(3));
+  },
+  apply(el: any, attr: any, expr: any) {
+    console.log('reactive apply');
+    const target = attr.name.slice(3);
+    const setter = (v: any) => el.setAttribute(target, String(v));
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    isFunction(expr) ? effect(() => setter(unwrap(expr))) : setter(expr);
+  },
+};

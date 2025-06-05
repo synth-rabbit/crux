@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "lib": ["DOM", "ES2020"],
+    "moduleResolution": "Node",
+    "strict": true,
+    "declaration": true,
+    "sourceMap": true,
+    "jsx": "preserve",
+    "types": ["vitest/globals"],
+    "paths": {
+      "@crux/reactivity": ["./packages/reactivity/src"],
+      "@crux/core": ["./packages/core/src"],
+      "@crux/context": ["./packages/context/src"]
+    }
+  },
+  "include": ["packages/*/src", "packages/*/test"]
+}
