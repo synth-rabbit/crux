@@ -12,7 +12,8 @@
     "paths": {
       "@crux/reactivity": ["./packages/reactivity/src"],
       "@crux/core": ["./packages/core/src"],
-      "@crux/context": ["./packages/context/src"]
+      "@crux/context": ["./packages/context/src"],
+      "@crux/router": ["./packages/router/src"]
     }
   },
   "include": ["packages/*/src", "packages/*/test"]
