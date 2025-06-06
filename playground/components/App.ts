@@ -9,6 +9,7 @@ import { provide, useContext } from '@crux/context';
 import { computed, createSignal } from '@crux/reactivity';
 import { ThemeContext } from '../context/ThemeContext';
 import './ContextChild';
+import './HelloWorld';
 
 // Root component showcasing the main Crux features
 defineComponent('my-app', () => {
@@ -55,6 +56,11 @@ defineComponent('my-app', () => {
     <section>
       <h2>Computed Signal</h2>
       <p>Double: ${cxText(() => doubleCount())}</p>
+    </section>
+
+    <section>
+      <h2>Props Example</h2>
+      <hello-world label="Press"></hello-world>
     </section>
 
     <section>

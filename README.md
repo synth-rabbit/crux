@@ -1,12 +1,12 @@
 # Crux
 
-Crux is a small experimental frontend framework.  It is organised as a `pnpm` workspace containing a few packages that provide reactive primitives, context support and DOM helpers.  A Vite based playground under `./playground` demonstrates how everything fits together.
+Crux is a small experimental frontend framework. It is organised as a `pnpm` workspace containing a few packages that provide reactive primitives, context support and DOM helpers. A Vite based playground under `./playground` demonstrates how everything fits together.
 
 ## Packages
 
-- **`@crux/reactivity`** – signal based reactivity with `createSignal`, `effect`, and `computed`.  A tiny scheduler ensures effects run asynchronously.
+- **`@crux/reactivity`** – signal based reactivity with `createSignal`, `effect`, and `computed`. A tiny scheduler ensures effects run asynchronously.
 - **`@crux/context`** – context utilities (`createContext`, `provide`, `useContext`) built on top of signals.
-- **`@crux/core`** – helpers for creating custom elements and rendering HTML templates.  Includes the `html` template tag and directives such as `cx-on`, `cx:if`, `cx:show`, `cx:model`, `cx:style`, and `cx:for`.
+- **`@crux/core`** – helpers for creating custom elements and rendering HTML templates. Includes the `html` template tag and directives such as `cx-on`, `cx:if`, `cx:show`, `cx:model`, `cx:style`, and `cx:for`.
 
 ## Getting started
 
@@ -33,15 +33,23 @@ Creating a simple component:
 import { defineComponent, html } from '@crux/core';
 import { createSignal } from '@crux/reactivity';
 
-defineComponent('hello-world', () => {
+defineComponent('hello-world', (props) => {
   const [count, setCount] = createSignal(0);
   return html`
     <button cx-on:click=${() => setCount(count() + 1)}>
-      Clicked ${count} times
+      ${props.label ?? 'Clicked'} ${count} times
     </button>
   `;
 });
 ```
+
+Props can be passed as attributes when using the component:
+
+```html
+<hello-world label="Press"></hello-world>
+```
+
+You can see this in action by running the playground (`pnpm dev`).
 
 Mount the root component using `createCruxApp` in `main.ts`:
 

@@ -3,11 +3,11 @@ import { defineComponent } from '@crux/core';
 
 describe('defineComponent', () => {
   const tagName = 'x-test-element';
+  const propsTag = 'x-test-props';
 
   beforeEach(() => {
-    // Ensure no conflict with already defined custom elements in repeated runs
-    if (customElements.get(tagName)) {
-      // Skip if element is already defined, as there's no standard API to undefine
+    // Skip setup if elements already defined, as they cannot be redefined
+    if (customElements.get(tagName) || customElements.get(propsTag)) {
       return;
     }
   });
@@ -22,10 +22,20 @@ describe('defineComponent', () => {
     defineComponent(tagName, setup);
 
     const el = document.createElement(tagName) as HTMLElement & { shadow: ShadowRoot };
+    document.body.appendChild(el);
 
     expect(setup).toHaveBeenCalledTimes(1);
     expect(el.shadowRoot).toBeInstanceOf(ShadowRoot);
     expect(el.shadowRoot?.childNodes.length).toBe(1);
     expect(el.shadowRoot?.firstChild?.textContent).toBe('Hello');
+  });
+
+  it('passes attributes as props to setup', () => {
+    const setup = vi.fn(() => document.createDocumentFragment());
+    defineComponent(propsTag, setup);
+
+    document.body.innerHTML = `<${propsTag} foo="bar" answer="42"></${propsTag}>`;
+
+    expect(setup).toHaveBeenCalledWith(expect.objectContaining({ foo: 'bar', answer: '42' }));
   });
 });
