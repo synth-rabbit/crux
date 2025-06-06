@@ -10,6 +10,7 @@ import { computed, createSignal } from '@crux/reactivity';
 import { ThemeContext } from '../context/ThemeContext';
 import './ContextChild';
 import './HelloWorld';
+import './FormDemo';
 
 // Root component showcasing the main Crux features
 defineComponent('my-app', () => {
@@ -120,6 +121,11 @@ defineComponent('my-app', () => {
       <ul>
         <li cx:for=${() => items()}>Static item</li>
       </ul>
+    </section>
+
+    <section>
+      <h2>Form Example</h2>
+      <demo-form></demo-form>
     </section>
   `;
 });

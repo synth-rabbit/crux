@@ -4,7 +4,8 @@
     "paths": {
       "@crux/core": ["../packages/core/src"],
       "@crux/reactivity": ["../packages/reactivity/src"],
-      "@crux/context": ["../packages/context/src"]
+      "@crux/context": ["../packages/context/src"],
+      "@crux/forms": ["../packages/forms/src"]
     }
   }
 }

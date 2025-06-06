@@ -8,6 +8,7 @@ Crux is a small experimental frontend framework. It is organised as a `pnpm` wor
 - **`@crux/context`** – context utilities (`createContext`, `provide`, `useContext`) built on top of signals.
 - **`@crux/core`** – helpers for creating custom elements and rendering HTML templates. Includes the `html` template tag and directives such as `cx-on`, `cx:if`, `cx:show`, `cx:model`, `cx:style`, and `cx:for`.
 - **`@crux/router`** – client side router supporting nested routes, dynamic segments, query strings and a handy `<cx-link>` component.
+- **`@crux/forms`** – utilities for managing form state and validations.
 
 ## Getting started
 
