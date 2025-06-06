@@ -1,15 +1,4 @@
 import { effect } from '@crux/reactivity';
-import {
-  addIndex,
-  reduce,
-  forEach,
-  cond,
-  T,
-  is,
-  isNil,
-  either,
-  always,
-} from 'ramda';
 
 import { allDirectives } from './directives';
 import { isFunction } from './utils';
@@ -25,31 +14,34 @@ function escapeHTML(s: string) {
 }
 
 /* ─── convert any interpolation value → Node[] ─── */
-const valueToNodes = (v: any): Node[] =>
-  cond<any, Node[]>([
-    [either(isNil, (x) => x === false), always([])],
-    [is(DocumentFragment), (frag: DocumentFragment) => Array.from(frag.cloneNode(true).childNodes)],
-    [is(Node), (node: Node) => [node]],
-    [Array.isArray, (arr: unknown[]) => (arr as unknown[]).flatMap(valueToNodes)],
-    [T, (val: unknown) => [document.createTextNode(escapeHTML(String(val)))]],
-  ])(v);
+function valueToNodes(v: any): Node[] {
+  if (v === null || v === undefined || v === false) {
+    return [];
+  }
+  if ((v as Node)?.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
+    return Array.from((v as DocumentFragment).cloneNode(true).childNodes);
+  }
+  if (v instanceof Node) {
+    return [v];
+  }
+  if (Array.isArray(v)) {
+    return v.flatMap(valueToNodes);
+  }
+  return [document.createTextNode(escapeHTML(String(v)))];
+}
 
 /* ───────────── main html tag ───────────── */
 export function html<T extends unknown[]>(
   strings: TemplateStringsArray,
   ...vals: T
 ): DocumentFragment {
-  const reduceIndexed = addIndex<string, string>(reduce);
-  const raw = reduceIndexed(
-    (acc, str, i) => {
-      const isAttr = str.match(/=\s*["']?$/);
-      const placeholder =
-        i < vals.length ? (isAttr ? `__crux_expr_${i}__` : `<!--crux:${i}-->`) : '';
-      return acc + str + placeholder;
-    },
-    '',
-    strings
-  );
+  let raw = '';
+  for (let i = 0; i < strings.length; i++) {
+    const str = strings[i];
+    const isAttr = str.match(/=\s*["']?$/);
+    const placeholder = i < vals.length ? (isAttr ? `__crux_expr_${i}__` : `<!--crux:${i}-->`) : '';
+    raw += str + placeholder;
+  }
 
   const tpl = document.createElement('template');
   tpl.innerHTML = raw;
@@ -61,9 +53,9 @@ export function html<T extends unknown[]>(
     comments.push(n as Comment);
   }
 
-  forEach((com: Comment) => {
+  for (const com of comments) {
     const m = com.nodeValue?.match(/^crux:(\d+)$/);
-    if (!m) return;
+    if (!m) continue;
 
     const idx = +m[1];
     const expr = vals[idx];
@@ -72,14 +64,14 @@ export function html<T extends unknown[]>(
     let nodes: Node[] = [];
 
     const render = (val: any) => {
-      forEach((n: ChildNode) => n.remove(), nodes as ChildNode[]);
+      for (const n of nodes as ChildNode[]) n.remove();
       nodes = valueToNodes(val);
-      forEach((n: Node) => parent.insertBefore(n, placeholder), nodes);
+      for (const n of nodes) parent.insertBefore(n, placeholder);
     };
 
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     isFunction(expr) ? effect(() => render(expr())) : render(expr);
-  }, comments);
+  }
 
   const eWalker = document.createTreeWalker(frag, NodeFilter.SHOW_ELEMENT);
   const elements: Element[] = [];
@@ -87,10 +79,10 @@ export function html<T extends unknown[]>(
     elements.push(n as Element);
   }
 
-  forEach((el: Element) => {
-    forEach((attr: Attr) => {
+  for (const el of elements) {
+    for (const attr of Array.from(el.attributes)) {
       const m = attr.value.match(/^__crux_expr_(\d+)__$/);
-      if (!m) return;
+      if (!m) continue;
 
       const idx = +m[1];
       const expr = vals[idx];
@@ -101,8 +93,8 @@ export function html<T extends unknown[]>(
           break;
         }
       }
-    }, Array.from(el.attributes));
-  }, elements);
+    }
+  }
 
   return frag;
 }
