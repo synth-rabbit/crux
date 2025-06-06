@@ -28,7 +28,11 @@ jobs:
       - uses: pnpm/action-setup@v2
         with:
           version: 8.14.2         # matches package.json
-          run_install: true       # installs dependencies
+          run_install: false
+      - name: Install dependencies
+        run: |
+          pnpm store prune
+          pnpm install --frozen-lockfile
 
       # 4 · Run your Vitest suite in CI mode
       - name: Run tests
