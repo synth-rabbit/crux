@@ -1,4 +1,10 @@
-import { cxClass, cxList, cxText, defineComponent, html } from '@crux/core';
+import {
+  cxClass,
+  cxList,
+  cxText,
+  defineComponent,
+  html,
+} from '@crux/core';
 import { provide, useContext } from '@crux/context';
 import { computed, createSignal } from '@crux/reactivity';
 import { ThemeContext } from '../context/ThemeContext';
@@ -18,6 +24,12 @@ defineComponent('my-app', () => {
   const [show, setShow] = createSignal(true);
   // List of strings for the cxList helper
   const [items, setItems] = createSignal<string[]>(['one', 'two']);
+  // For cx:show demonstration
+  const [visible, setVisible] = createSignal(true);
+  // For cx:model demonstration
+  const nameSignal = createSignal('');
+  // For cx:style demonstration
+  const [color, setColor] = createSignal('red');
 
   return html`
     <style>
@@ -65,15 +77,43 @@ defineComponent('my-app', () => {
 
     <section>
       <h2>Context & Reactive Attribute (cx:class)</h2>
-      <p cx:class=${cxClass(() => theme() === 'dark', 'dark', 'light')} cx:title=${() => `Theme is ${theme()}` }>
+      <p
+        cx:class=${cxClass(() => theme() === 'dark', 'dark', 'light')}
+        cx:title=${() => `Theme is ${theme()}`}
+      >
         Theme: ${cxText(() => theme())}
       </p>
-      <button cx-on:click=${() =>
-        setTheme(theme() === 'dark' ? 'light' : 'dark')}
-      >
+      <button cx-on:click=${() => setTheme(theme() === 'dark' ? 'light' : 'dark')}>
         Toggle Theme
       </button>
       <context-child></context-child>
+    </section>
+
+    <section>
+      <h2>Show Directive (cx:show)</h2>
+      <button cx-on:click=${() => setVisible(!visible())}>Toggle visibility</button>
+      <p cx:show=${() => visible()}>I toggle display</p>
+    </section>
+
+    <section>
+      <h2>Model Directive (cx:model)</h2>
+      <input cx:model=${nameSignal} placeholder="Type your name" />
+      <p>Name: ${cxText(() => nameSignal[0]())}</p>
+    </section>
+
+    <section>
+      <h2>Style Directive (cx:style)</h2>
+      <button cx-on:click=${() => setColor(color() === 'red' ? 'blue' : 'red')}>
+        Toggle Color
+      </button>
+      <span cx:style:color=${() => color()}>This text changes color</span>
+    </section>
+
+    <section>
+      <h2>For Directive (cx:for)</h2>
+      <ul>
+        <li cx:for=${() => items()}>Static item</li>
+      </ul>
     </section>
   `;
 });
