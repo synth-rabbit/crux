@@ -1,5 +1,6 @@
 import { describe, expect, vi } from 'vitest';
-import { createCruxApp } from '@crux/core';
+import { createCruxApp, defineComponent, html } from '@crux/core';
+import { useRouter } from '@crux/router';
 
 describe('createCruxApp', () => {
   test('mounts root component into target', () => {
@@ -13,5 +14,22 @@ describe('createCruxApp', () => {
     createCruxApp({ root: 'my-app', selector: '#nonexistent' });
     expect(spy).toHaveBeenCalled();
     spy.mockRestore();
+  });
+
+  test('provides router when configured', () => {
+    defineComponent('router-root', () => {
+      const r = useRouter();
+      return html`<span>${r.currentPath[0]()}</span>`;
+    });
+
+    document.body.innerHTML = `<div id="app"></div>`;
+    createCruxApp({
+      root: 'router-root',
+      selector: '#app',
+      router: { root: { path: '/', component: 'router-root' } },
+    });
+
+    const span = document.querySelector('router-root')!.shadowRoot!.querySelector('span');
+    expect(span?.textContent).toBe('/');
   });
 });

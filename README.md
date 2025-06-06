@@ -7,6 +7,7 @@ Crux is a small experimental frontend framework. It is organised as a `pnpm` wor
 - **`@crux/reactivity`** – signal based reactivity with `createSignal`, `effect`, and `computed`. A tiny scheduler ensures effects run asynchronously.
 - **`@crux/context`** – context utilities (`createContext`, `provide`, `useContext`) built on top of signals.
 - **`@crux/core`** – helpers for creating custom elements and rendering HTML templates. Includes the `html` template tag and directives such as `cx-on`, `cx:if`, `cx:show`, `cx:model`, `cx:style`, and `cx:for`.
+- **`@crux/router`** – client side router supporting nested routes, dynamic segments, query strings and a handy `<cx-link>` component.
 
 ## Getting started
 
@@ -56,10 +57,28 @@ Mount the root component using `createCruxApp` in `main.ts`:
 ```ts
 import './hello-world.ts';
 import { createCruxApp } from '@crux/core';
-
 createCruxApp({
   root: 'hello-world',
   selector: '#app',
+  router: {
+    root: {
+      path: '/',
+      component: 'hello-world',
+      children: [{ path: 'todos/:id', component: 'todo-detail' }],
+    },
+  },
+});
+```
+
+Inside components you can access route details via `useRoute`:
+
+```ts
+import { defineComponent, html } from '@crux/core';
+import { useRoute } from '@crux/router';
+
+defineComponent('todo-detail', () => {
+  const { params, query } = useRoute();
+  return html`<p>Todo ${params.id} sorted by ${query.sort}</p>`;
 });
 ```
 
