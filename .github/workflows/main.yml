@@ -14,27 +14,21 @@ on:
 jobs:
   tests:
     runs-on: ubuntu-latest
-    # The job name (“tests”) is the status-check name you’ll mark as required
     steps:
-      # 1 · Grab the code
       - uses: actions/checkout@v4
-
-      # 2 · Set up Node + built-in cache for pnpm’s store
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'           # built-in “save & restore” for ~/.pnpm-store
-                                   # :contentReference[oaicite:0]{index=0}
-
-      # 3 · Install pnpm and dependencies (runs `pnpm install`)
-      - uses: pnpm/action-setup@v3
+      - uses: pnpm/action-setup@v2
         with:
-          version: 9              # or “latest”
-          run_install: true       # automatically runs install
-          # this action knows to reuse the cache from step 2
-          # :contentReference[oaicite:1]{index=1}
-
-      # 4 · Run your Vitest suite in CI mode
+          version: 8.14.2
+          run_install: true
+      - name: Verify lockfile integrity
+        run: pnpm install
+      - name: Debug pnpm environment
+        run: |
+          pnpm -v
+          node -v
+          which pnpm
       - name: Run tests
-        run: pnpm exec vitest run --coverage --ci
-        # vitest exits with 1 on failure → job fails → status-check = ❌
+        run: pnpm exec vitest run --coverage
