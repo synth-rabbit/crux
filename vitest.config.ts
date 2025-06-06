@@ -19,6 +19,7 @@ export default defineConfig({
       '@crux/reactivity': path.resolve(__dirname, 'packages/reactivity/src'),
       '@crux/core': path.resolve(__dirname, 'packages/core/src'),
       '@crux/router': path.resolve(__dirname, 'packages/router/src'),
+      '@crux/forms': path.resolve(__dirname, 'packages/forms/src'),
     },
   },
 });

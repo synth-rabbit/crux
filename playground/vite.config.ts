@@ -19,7 +19,8 @@ export default defineConfig({
     alias: {
       "@crux/reactivity": path.resolve(__dirname, "../packages/reactivity/src"),
       "@crux/core": path.resolve(__dirname, "../packages/core/src"),
-      "@crux/context": path.resolve(__dirname, "../packages/context/src")
+      "@crux/context": path.resolve(__dirname, "../packages/context/src"),
+      "@crux/forms": path.resolve(__dirname, "../packages/forms/src")
     }
   }
 });

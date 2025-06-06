@@ -13,7 +13,8 @@
       "@crux/reactivity": ["./packages/reactivity/src"],
       "@crux/core": ["./packages/core/src"],
       "@crux/context": ["./packages/context/src"],
-      "@crux/router": ["./packages/router/src"]
+      "@crux/router": ["./packages/router/src"],
+      "@crux/forms": ["./packages/forms/src"]
     }
   },
   "include": ["packages/*/src", "packages/*/test"]
