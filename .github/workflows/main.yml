@@ -26,15 +26,15 @@ jobs:
           cache: 'pnpm'           # built-in “save & restore” for ~/.pnpm-store
                                    # :contentReference[oaicite:0]{index=0}
 
-      # 3 · Install pnpm and dependencies (runs `pnpm install`)
-      - uses: pnpm/action-setup@v3
+      # 3 · Install pnpm
+      - uses: pnpm/action-setup@v2
         with:
-          version: 9              # or “latest”
-          run_install: true       # automatically runs install
-          # this action knows to reuse the cache from step 2
-          # :contentReference[oaicite:1]{index=1}
+          version: 8.14.2         # matches package.json
 
-      # 4 · Run your Vitest suite in CI mode
+      # 4 · Install dependencies
+      - run: pnpm install
+
+      # 5 · Run your Vitest suite in CI mode
       - name: Run tests
         run: pnpm exec vitest run --coverage
         # vitest exits with 1 on failure → job fails → status-check = ❌
