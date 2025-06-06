@@ -14,12 +14,16 @@ export const forDirective: Directive = {
     const template = el.cloneNode(true) as Element;
     parent.replaceChild(placeholder, el);
 
-    let nodes: Node[] = [];
+    const nodes: Node[] = [];
     const render = (list: unknown[]) => {
-      nodes.forEach((n) => n.remove());
-      nodes = [];
-      if (!Array.isArray(list)) return;
-      for (let i = 0; i < list.length; i++) {
+      if (!Array.isArray(list)) list = [];
+
+      while (nodes.length > list.length) {
+        const node = nodes.pop()!;
+        node.remove();
+      }
+
+      while (nodes.length < list.length) {
         const clone = template.cloneNode(true);
         parent.insertBefore(clone, placeholder);
         nodes.push(clone);

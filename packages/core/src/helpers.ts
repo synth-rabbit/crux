@@ -1,5 +1,4 @@
 import { effect } from '@crux/reactivity';
-import { map } from 'ramda';
 
 export const cxText = <T>(sig: () => T) => {
   const node = document.createTextNode(String(sig()));
@@ -12,7 +11,7 @@ export const cxText = <T>(sig: () => T) => {
 export const cxList =
   <T>(getList: () => T[], mapFn: (item: T) => Node) =>
   () =>
-    map(mapFn, getList());
+    getList().map(mapFn);
 
 export const cxClass =
   (condition: () => boolean, trueClass: string, falseClass = '') =>

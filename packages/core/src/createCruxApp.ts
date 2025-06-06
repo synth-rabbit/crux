@@ -5,11 +5,9 @@ interface CreateCruxAppOptions {
   selector: string;
 }
 
-import { isNil } from 'ramda';
-
 export function createCruxApp({ root, selector }: CreateCruxAppOptions) {
   const mountPoint = document.querySelector(selector);
-  if (isNil(mountPoint)) {
+  if (!mountPoint) {
     console.error(`[crux] Mount point '${selector}' not found.`);
     return;
   }

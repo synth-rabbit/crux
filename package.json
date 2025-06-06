@@ -5,7 +5,7 @@
   "description": "A modern frontend framework with signal-based state, shadow DOM, and custom directives",
   "scripts": {
     "dev": "vite --config playground/vite.config.ts",
-    "test": "vitest",
+    "test": "vitest run",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
     "build": "rollup -c",
@@ -22,7 +22,6 @@
   "author": "synth-rabbit <josh.dean.edwards@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "ramda": "^0.30.0"
   },
   "packageManager": "pnpm@8.14.2+sha1.1670a65b60df5f95e9f0cb7de46e605d9bd74fda",
   "devDependencies": {
