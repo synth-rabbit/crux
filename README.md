@@ -6,7 +6,7 @@ Crux is a small experimental frontend framework.  It is organised as a `pnpm` wo
 
 - **`@crux/reactivity`** – signal based reactivity with `createSignal`, `effect`, and `computed`.  A tiny scheduler ensures effects run asynchronously.
 - **`@crux/context`** – context utilities (`createContext`, `provide`, `useContext`) built on top of signals.
-- **`@crux/core`** – helpers for creating custom elements and rendering HTML templates.  Includes the `html` template tag and directives such as `cx-on` and `cx:if`.
+- **`@crux/core`** – helpers for creating custom elements and rendering HTML templates.  Includes the `html` template tag and directives such as `cx-on`, `cx:if`, `cx:show`, `cx:model`, `cx:style`, and `cx:for`.
 
 ## Getting started
 
