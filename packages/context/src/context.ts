@@ -1,4 +1,5 @@
 import { createSignal, Signal } from '@crux/reactivity';
+import { find, reverse } from 'ramda';
 
 export interface Context<T> {
   id: symbol;
@@ -48,14 +49,11 @@ export function provide<T>(context: Context<T>, defaultValue?: T) {
  * Retrieves the signal for a given context.
  */
 export function useContext<T>(context: Context<T>): Signal<T> | undefined {
-  for (let i = contextStack.length - 1; i >= 0; i--) {
-    const map = contextStack[i];
-    if (map.has(context.id)) {
-      return map.get(context.id) as Signal<T>;
-    }
-  }
-
-  return context.defaultValue as Signal<T>;
+  const map = find<ContextMap>(
+    (m) => m.has(context.id),
+    reverse(contextStack)
+  );
+  return map ? (map.get(context.id) as Signal<T>) : (context.defaultValue as Signal<T>);
 }
 
 /** Internal helper to reset the context stack for tests. */

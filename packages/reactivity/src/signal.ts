@@ -1,6 +1,7 @@
 import { queueJob } from './scheduler';
 import { currentEffect } from './effect';
 import type { ReactiveEffect, Signal } from './types';
+import { forEach } from 'ramda';
 
 export function createSignal<T>(initialValue: T): Signal<T> {
   let value = initialValue;
@@ -18,9 +19,7 @@ export function createSignal<T>(initialValue: T): Signal<T> {
 
     value = newValue;
 
-    for (const sub of subscribers) {
-      queueJob(sub);
-    }
+    forEach(queueJob, Array.from(subscribers));
   }
 
   return [read, write];

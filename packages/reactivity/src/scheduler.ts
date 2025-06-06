@@ -1,5 +1,6 @@
 // scheduler.ts
 import type { ReactiveEffect } from './types';
+import { includes, forEach } from 'ramda';
 
 const queue: ReactiveEffect[] = [];
 let flushing = false;
@@ -9,7 +10,7 @@ let flushing = false;
  * Ensures effects added during a flush cycle are deferred to the next microtask.
  */
 export function queueJob(job: ReactiveEffect): void {
-  if (!queue.includes(job)) {
+  if (!includes(job, queue)) {
     queue.push(job);
     if (!flushing) {
       queueMicrotask(flush);
@@ -27,12 +28,12 @@ export function flush(): void {
     const pending = queue.slice();
     queue.length = 0;
 
-    for (const job of pending) {
+    forEach((job: ReactiveEffect) => {
       if (!seen.has(job)) {
         seen.add(job);
         job();
       }
-    }
+    }, pending);
   }
 
   flushing = false;
